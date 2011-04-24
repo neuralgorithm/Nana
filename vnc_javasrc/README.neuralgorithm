@@ -1,0 +1,8 @@
+Neuralgorithm:
+
+The VNC protocol assumes that the server starts to negotiate with the
+client by sending the largest protocol version number that the server
+can understand. On the other hand, for layer-7 proxy, the client has
+to start negotiation. So, in the L7-proxy version of VNC protocol,
+the version number has to be set at a fixed number. For this purpose,
+I modified RfbProto.java.

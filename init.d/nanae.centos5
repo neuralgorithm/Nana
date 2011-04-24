@@ -1,0 +1,64 @@
+#!/bin/sh
+#
+# nana        Layer 7 Proxy Daemon
+#             Written by YAMAZAKI, Tadashi <tyam@brain.riken.jp>
+#
+# Version:    0.5
+#
+# chkconfig: 3 99 99
+# description: Layer 7 Proxy Daemon
+#
+
+PATH=/opt/simpf/sbin
+DAEMON=/opt/simpf/sbin/nana
+PID=/var/run/nana.pid
+NAME=nana
+DESC=nana
+
+test -x $DAEMON || exit 5
+
+. /etc/rc.d/init.d/functions
+
+case $1 in
+
+  start)
+    echo -n "Starting $DESC: "
+    daemon --check $NAME $DAEMON
+    RETVAL=$?
+    if [ $RETVAL -eq 0 ]; then
+      success
+    else
+      failure
+    fi;
+    echo
+    ;;
+
+  stop)
+    echo -n "Stopping $DESC: "
+    killproc $NAME
+    RETVAL=$?
+    if [ $RETVAL -eq 0 ]; then
+      success
+    else
+      failure
+    fi;
+    echo
+    ;;
+  
+  restart)
+    echo -n "Restarting $DESC: "
+    $0 stop
+    $0 start
+    ;;
+
+  status)
+    echo -n "Checking for service $DESC: "
+    status $DAEMON
+    echo
+    ;;
+
+  *)
+    echo "Usage: $0 {start|stop|restart|status}"
+    exit 1
+    ;;
+esac
